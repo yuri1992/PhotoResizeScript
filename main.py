@@ -1,6 +1,7 @@
 __author__ = 'yuri'
-from PIL import Image
 import os
+import sys
+from PIL import Image
 
 config = {
     'big': (2000, 0),
@@ -14,11 +15,14 @@ class ImageResize(object):
         self.main_dir = folder or os.getcwd()
         self.walk_throw()
 
-    def walk_throw(self):
+    def walk_throw(self, recursive=False):
         """
         :rtype : object
         """
-        os.path.walk(self.main_dir, _file_handler, [])
+        if recursive:
+            os.path.walk(self.main_dir, _file_handler, [])
+        else:
+            _file_handler('',self.main_dir,os.listdir(self.main_dir))
 
 
 def _file_handler(arg, dir, f_names):
@@ -48,4 +52,4 @@ def _file_handler(arg, dir, f_names):
 
 
 if __name__ == "__main__":
-    ImageResize(r'/home/yuri/Documents/shirathapark/Folder/')
+    ImageResize(sys.argv[1])
